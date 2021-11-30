@@ -24,17 +24,7 @@ class Serial {
     );
     this.#reader = this.#inputStream.getReader();
 
-    while (true) {
-      const { value, done } = await this.#reader.read();
-      if (value) {
-        this.#serialMonitor.addLine(value);
-        this.#serialPlotter.addValue(value);
-      }
-      if (done) {
-        this.#reader.releaseLock();
-        break;
-      }
-    }
+    this.#readLoop();
   }
 
   async disconnect() {
@@ -47,14 +37,28 @@ class Serial {
     await this.port?.close();
     this.port = null;
   }
+
+  async #readLoop() {
+    while (true) {
+      const { value, done } = await this.#reader!.read();
+      if (value) {
+        this.#serialMonitor.addLine(value);
+        this.#serialPlotter.addValue(value);
+      }
+      if (done) {
+        this.#reader?.releaseLock();
+        break;
+      }
+    }
+  }
 }
 
 const serial = new Serial();
 
-document.querySelector<HTMLElement>("#connect")?.addEventListener(
+const connectButton = document.querySelector<HTMLElement>("#connect")!;
+connectButton.addEventListener(
   "click",
   async () => {
-    const connectButton = document.querySelector<HTMLElement>("#connect")!;
     if (!document.querySelector("input")!.checkValidity()) {
       return;
     }
