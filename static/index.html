@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google" content="notranslate" />
+    <link rel="stylesheet" href="https://esm.sh/@picocss/pico@1.4.1?css" />
+    <style>
+      .container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+      h1 {
+        margin-bottom: 1rem;
+      }
+      .grid {
+        grid-template-columns: 3fr 1fr;
+      }
+    </style>
+    <title>Serial Plotter</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Serial Plotter</h1>
+      <div class="grid">
+        <div>
+          <serial-monitor></serial-monitor>
+          <serial-plotter></serial-plotter>
+        </div>
+        <div>
+          <form id="settings">
+            <input id="baud-rate" type="number" placeholder="Baud Rate" required />
+            <button id="connect">Connect</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
