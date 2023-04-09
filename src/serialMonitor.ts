@@ -1,10 +1,9 @@
 export class SerialMonitor extends HTMLElement {
-  #monitor = document.createElement("pre");
+  #monitor = document.createElement('pre');
 
   connectedCallback() {
-    const shadow = this.attachShadow({ mode: "closed" });
-    shadow.innerHTML =
-      `<link rel="stylesheet" href="https://esm.sh/@picocss/pico@1.4.1?css" />
+    const shadow = this.attachShadow({ mode: 'closed' });
+    shadow.innerHTML = `<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css" />
       <style>
         .monitor {
           display: flex;
@@ -18,12 +17,12 @@ export class SerialMonitor extends HTMLElement {
         }
       </style>`;
 
-    this.#monitor.setAttribute("class", "monitor");
+    this.#monitor.setAttribute('class', 'monitor');
     shadow.appendChild(this.#monitor);
   }
 
   addLine(str: string) {
-    const line = document.createElement("code");
+    const line = document.createElement('code');
     line.innerText = str;
     this.#monitor.insertBefore(line, this.#monitor.firstElementChild);
     if (this.#monitor.childElementCount > 500 + 1) {
