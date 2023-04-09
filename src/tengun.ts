@@ -26,29 +26,21 @@ export class Tengun {
     type: 'scatter',
   };
 
-  x = [] as number[];
-  y = [] as number[];
-
   constructor(plotly: HTMLDivElement) {
     this.#plotly = plotly;
     Plotly.newPlot(this.#plotly, [this.#data], this.#layout);
 
     setInterval(() => {
-      Plotly.extendTraces(
-        this.#plotly,
-        {
-          x: [this.x],
-          y: [this.y],
-        },
-        [0]
-      );
-      this.x.length = 0;
-      this.y.length = 0;
+      Plotly.update(this.#plotly, [this.#data], this.#layout);
     }, 500);
   }
 
   update(x: number, y: number) {
-    this.x.push(x);
-    this.y.push(y);
+    this.#data.x.push(x);
+    this.#data.y.push(y);
+    if (this.#data.x.length > 1000) {
+      this.#data.x.shift();
+      this.#data.y.shift();
+    }
   }
 }
