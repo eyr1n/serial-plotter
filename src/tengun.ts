@@ -43,4 +43,10 @@ export class Tengun {
       this.#data.y.shift();
     }
   }
+
+  clear() {
+    this.#data.x.length = 0;
+    this.#data.y.length = 0;
+    Plotly.update(this.#plotly, [this.#data], this.#layout);
+  }
 }

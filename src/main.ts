@@ -43,8 +43,12 @@ class Serial {
       const { value, done } = await this.#reader!.read();
       if (value) {
         this.#serialMonitor.addLine(value);
-        const [x, y] = value.split(', ').map((x) => parseFloat(x));
-        this.#tengun.update(x, y);
+        if (value === 'clear') {
+          this.#tengun.clear();
+        } else {
+          const [x, y] = value.split(', ').map((x) => parseFloat(x));
+          this.#tengun.update(x, y);
+        }
       }
       if (done) {
         this.#reader?.releaseLock();
